@@ -1,5 +1,13 @@
+Step 0)
+Copy the workflow YAML file from .github/workflows/ to your project
+
 Step 1)
-Configure the repository secrets:
+Configure the repository secrets and source path:
+``ỳaml
+ source: ./ #needs to point to the API's folder, so this could be ./server/api/
+```
+
+Repository secrets:
 
 ![image](https://github.com/user-attachments/assets/4402a677-7745-4a24-8487-822e630a82a2)
 
