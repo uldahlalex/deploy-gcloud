@@ -29,6 +29,22 @@ gcloud run services list
 ```
 
 Step 2)
+Make sure you've configured the URL:
+
+```csharp
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var url = $"http://0.0.0.0:{port}";
+var target = Environment.GetEnvironmentVariable("TARGET") ?? "World";
+
+var app = builder.Build();
+
+app.MapGet("/", () => $"Hello {target}!");
+
+Console.WriteLine(JsonSerializer.Serialize(Environment.GetEnvironmentVariables()));
+app.Run(url);
+```
+
+Step 3)
 Trigger it
 
 ![image](https://github.com/user-attachments/assets/39e55349-9150-4b30-ba82-990d08c16a2f)
