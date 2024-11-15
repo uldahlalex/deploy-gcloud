@@ -38,7 +38,7 @@ jobs:
           region: europe-north1
           source: ./
           env_vars: |-
-            DB=${{secrets.DB}}
+#            DB=${{secrets.DB}} #if you have a DB environment variable you can add it like this (adjust name)
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
