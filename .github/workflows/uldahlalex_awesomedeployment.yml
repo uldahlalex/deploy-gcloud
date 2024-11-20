@@ -30,7 +30,7 @@ jobs:
 
 
 
-      - name: Create Dockerfile
+      - name: Create Dockerfile #Adjust this if you use different directory names / versions
         run: |
           cat > Dockerfile << 'EOF'
           FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
