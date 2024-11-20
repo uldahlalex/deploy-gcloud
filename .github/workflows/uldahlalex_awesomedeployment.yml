@@ -30,15 +30,33 @@ jobs:
 
 
 
+      - name: Create Dockerfile
+        run: |
+          cat > Dockerfile << 'EOF'
+          FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+          WORKDIR /src
+          COPY . .
+          RUN dotnet restore "server/api/api.csproj"
+          RUN dotnet publish "server/api/api.csproj" -c Release -o /app/publish
+
+          FROM mcr.microsoft.com/dotnet/aspnet:8.0
+          WORKDIR /app
+          COPY --from=build /app/publish .
+          ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+          EXPOSE 8080
+          ENTRYPOINT ["dotnet", "api.dll"]
+          EOF
+
       - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: ${{ secrets.NAME }}
           region: europe-north1
-          source: ./
+          source: .
+          dockerfile: Dockerfile
           env_vars: |-
-#            DB=${{secrets.DB}} #if you have a DB environment variable you can add it like this (adjust name)
-
+            #DB=${{secrets.DB}} #uncomment and make sure to configure repo secret if you have one
+            
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
